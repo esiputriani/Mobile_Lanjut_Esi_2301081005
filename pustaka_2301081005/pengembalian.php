@@ -39,8 +39,8 @@ switch ($method) {
             $data = json_decode(file_get_contents("php://input"), true);
     
             if ( !empty($data['kode_anggota']) && !empty($data['tkembali']) && !empty($data['denda']) && !empty($data['kodebuku'])) {
-                $stmt = $pdo->prepare("INSERT INTO pengembalian (kode_anggota,tkembali,denda, kodebuku) VALUES (?, ?, ? , ? ,?)");
-                $stmt->execute([ $data['kode_anggota'], $data['tkembali'], $data['denda'] ,$data['kodebuku']]);
+                $stmt = $pdo->prepare("INSERT INTO pengembalian (kodeanggota,tkembali,denda, kodebuku) VALUES (?, ?, ? , ? ,?)");
+                $stmt->execute([ $data['kodeanggota'], $data['tkembali'], $data['denda'] ,$data['kodebuku']]);
                 echo json_encode(["message" => "pengembaliancreated", "id" => $pdo->lastInsertId()]);
             } else {
                 http_response_code(400);
@@ -58,14 +58,14 @@ switch ($method) {
         
                     if ($pengembalian) {
                         
-                        $kode_anggota = $data['kode_anggota'] ?? $pengembalian['kode_anggota'];
+                        $kode_anggota = $data['kodeanggota'] ?? $pengembalian['kodeanggota'];
      
                         $tkembali = $data['tkembali'] ?? $pengembalian['tkembali'];
                         $denda = $data['denda'] ?? $pengembalian['denda'];
                         $kodebuku = $data['kodebuku'] ?? $pengembalian['kodebuku'];
                         
         
-                        $stmt = $pdo->prepare("UPDATE pengembalians SET kode_anggota = ?, tkembali = ?, denda = ? ,kodebuku = ? WHERE id = ?");
+                        $stmt = $pdo->prepare("UPDATE pengembalians SET kodeanggota = ?, tkembali = ?, denda = ? ,kodebuku = ? WHERE id = ?");
                         $stmt->execute([$nama, $age, $major, $id]);
                         echo json_encode(["message" => "pengembalian updated"]);
                     } else {
