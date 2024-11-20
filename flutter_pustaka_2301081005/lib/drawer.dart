@@ -1,7 +1,8 @@
-import 'package:flutter_pustaka_2301081005/home_page.dart';
+
 import 'package:flutter_pustaka_2301081005/pages/home_anggota.dart';
 import 'package:flutter_pustaka_2301081005/pages/home_buku.dart';
 import 'package:flutter_pustaka_2301081005/pages/home_peminjaman.dart';
+import 'package:flutter_pustaka_2301081005/pages/home_pengembalian.dart';
 import 'package:flutter_pustaka_2301081005/setting_page.dart';
 import 'package:flutter/material.dart';
 
@@ -47,18 +48,12 @@ class MyDrawer extends StatelessWidget {
           ),
           ListTile(
             onTap: () {
-              Navigator.of(context).pushNamed(MyHome.routesName);
+              Navigator.of(context).pushNamed(Pengembalian.routesName);
             },
             leading: Icon(Icons.assignment_return),
             title: Text("PENGEMBALIAN"),
           ),
-          ListTile(
-            onTap: () {
-              Navigator.of(context).pushNamed(MyHome.routesName);
-            },
-            leading: Icon(Icons.money_off),
-            title: Text("DENDA"),
-          ),
+          
           ListTile(
             onTap: () {
               Navigator.of(context).pushNamed(SettingPage.routesName);
