@@ -38,9 +38,9 @@ switch ($method) {
             // Create new peminjaman
             $data = json_decode(file_get_contents("php://input"), true);
     
-            if (!empty($data['nama']) && !empty($data['kode_anggota']) && !empty($data['tpinjam']) && !empty($data['tkembali']) && !empty($data['kodebuku'])) {
-                $stmt = $pdo->prepare("INSERT INTO peminjaman (nama, kode_anggota,tpinjam, tkembali, kodebuku) VALUES (?, ?, ? , ? ,?)");
-                $stmt->execute([$data['nama'], $data['kode_anggota'], $data['tpinjam'], $data['tkembali'] ,$data['kodebuku']]);
+            if (!empty($data['nama']) && !empty($data['kodeanggota']) && !empty($data['tpinjam']) && !empty($data['tkembali']) && !empty($data['kodebuku'])) {
+                $stmt = $pdo->prepare("INSERT INTO peminjaman (nama, kodeanggota,tpinjam, tkembali, kodebuku) VALUES (?, ?, ? , ? ,?)");
+                $stmt->execute([$data['nama'], $data['kodeanggota'], $data['tpinjam'], $data['tkembali'] ,$data['kodebuku']]);
                 echo json_encode(["message" => "peminjamancreated", "id" => $pdo->lastInsertId()]);
             } else {
                 http_response_code(400);
@@ -58,13 +58,13 @@ switch ($method) {
         
                     if ($peminjaman) {
                         $nama = $data['nama'] ?? $peminjaman['nama'];
-                        $kode_anggota = $data['kode_anggota'] ?? $peminjaman['kode_anggota'];
+                        $kode_anggota = $data['kodeanggota'] ?? $peminjaman['kodeanggota'];
                         $tpinjam = $data['tpinjam'] ?? $peminjaman['tpinjam'];
                         $tkembali = $data['tkembali'] ?? $peminjaman['tkembali'];
                         $kodebuku = $data['kodebuku'] ?? $peminjaman['kodebuku'];
                         
         
-                        $stmt = $pdo->prepare("UPDATE peminjamans SET nama = ?, kode_anggota = ?, tpinjam = ?, tkembali = ? ,kodebuku = ? WHERE id = ?");
+                        $stmt = $pdo->prepare("UPDATE peminjamans SET nama = ?, kodeanggota = ?, tpinjam = ?, tkembali = ? ,kodebuku = ? WHERE id = ?");
                         $stmt->execute([$nama, $age, $major, $id]);
                         echo json_encode(["message" => "peminjaman updated"]);
                     } else {
