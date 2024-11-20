@@ -38,9 +38,9 @@ switch ($method) {
             // Create new student
             $data = json_decode(file_get_contents("php://input"), true);
     
-            if (!empty($data['kode_buku']) && !empty($data['judul_buku']) && !empty($data['penulis']) && !empty($data['deskripsi'])) {
-                $stmt = $pdo->prepare("INSERT INTO buku (kode_buku, judul_buku,penulis, deskripsi) VALUES (?, ?, ? , ?)");
-                $stmt->execute([$data['kode_buku'], $data['judul_buku'], $data['penulis'], $data['deskripsi']]);
+            if (!empty($data['kodebuku']) && !empty($data['judulbuku']) && !empty($data['pengarang']) && !empty($data['penerbit']) && !empty($data['tahunterbit'])) {
+                $stmt = $pdo->prepare("INSERT INTO buku (kodebuku, judulbuku,pengarang, penerbit, tahunterbit) VALUES (?, ?, ? , ? ,?)");
+                $stmt->execute([$data['kodebuku'], $data['judulbuku'], $data['pengarang'], $data['penerbit'] ,$data['tahunterbit']]);
                 echo json_encode(["message" => "bukucreated", "id" => $pdo->lastInsertId()]);
             } else {
                 http_response_code(400);
@@ -57,18 +57,19 @@ switch ($method) {
                     $student = $stmt->fetch(PDO::FETCH_ASSOC);
         
                     if ($student) {
-                        $kode_buku = $data['kode_buku'] ?? $student['kode_buku'];
-                        $judul_buku = $data['judul_buku'] ?? $student['judul_buku'];
-                        $penulis = $data['penulis'] ?? $student['penulis'];
-                        $deskripsi = $data['deskripsi'] ?? $student['deskripsi'];
+                        $kode_buku = $data['kodebuku'] ?? $student['kodebuku'];
+                        $judul_buku = $data['judulbuku'] ?? $student['judulbuku'];
+                        $pengarang = $data['pengarang'] ?? $student['pengarang'];
+                        $penerbit = $data['penerbit'] ?? $student['penerbit'];
+                        $tahun_terbit = $data['tahunterbit'] ?? $student['tahunterbit'];
                         
         
-                        $stmt = $pdo->prepare("UPDATE students SET kode_buku = ?, judul_buku = ?, penulis = ?, deskripsi = ? WHERE id = ?");
+                        $stmt = $pdo->prepare("UPDATE students SET kodebuku = ?, judulbuku = ?, pengarang = ?, penerbit = ? ,tahun terbit = ? WHERE id = ?");
                         $stmt->execute([$kode_buku, $age, $major, $id]);
-                        echo json_encode(["message" => "Student updated"]);
+                        echo json_encode(["message" => "Buku updated"]);
                     } else {
                         http_response_code(404);
-                        echo json_encode(["message" => "Student not found"]);
+                        echo json_encode(["message" => "Buku not found"]);
                     }
                 } else {
                     http_response_code(400);
@@ -86,10 +87,10 @@ switch ($method) {
                     if ($student) {
                         $stmt = $pdo->prepare("DELETE FROM buku WHERE id = ?");
                         $stmt->execute([$id]);
-                        echo json_encode(["message" => "Student deleted"]);
+                        echo json_encode(["message" => "Buku deleted"]);
                     } else {
                         http_response_code(404);
-                        echo json_encode(["message" => "Student not found"]);
+                        echo json_encode(["message" => "Buku not found"]);
                     }
                 } else {
                     http_response_code(400);
